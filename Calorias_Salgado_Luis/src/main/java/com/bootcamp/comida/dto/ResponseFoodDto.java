@@ -1,13 +1,12 @@
 package com.bootcamp.comida.dto;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class ResponseFoodDto {
 
     private Double caloriasTotales;
     private HashMap<String,Double> caloriasIngredients;
-    private IngredientesDto highestIngredientCalories;
+    private IngredientsDto highestIngredientCalories;
 
     public Double getCaloriasTotales() {
         return caloriasTotales;
@@ -25,11 +24,11 @@ public class ResponseFoodDto {
         this.caloriasIngredients = caloriasIngredients;
     }
 
-    public IngredientesDto getHighestIngredientCalories() {
+    public IngredientsDto getHighestIngredientCalories() {
         return highestIngredientCalories;
     }
 
-    public void setHighestIngredientCalories(IngredientesDto highstIngredientCalories) {
+    public void setHighestIngredientCalories(IngredientsDto highstIngredientCalories) {
         this.highestIngredientCalories = highstIngredientCalories;
     }
 }

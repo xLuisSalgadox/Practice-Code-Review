@@ -1,8 +1,8 @@
 package com.bootcamp.comida.services;
 
 import com.bootcamp.comida.dto.CaloriesDto;
-import com.bootcamp.comida.dto.IngredientesDto;
-import com.bootcamp.comida.dto.PlatoComidaDto;
+import com.bootcamp.comida.dto.IngredientsDto;
+import com.bootcamp.comida.dto.FoodPlateDto;
 import com.bootcamp.comida.dto.ResponseFoodDto;
 
 import com.bootcamp.comida.repository.ICaloriesFoodRepository;
@@ -17,16 +17,18 @@ public class CaloriesServicesImplement implements ICaloriesServices{
     @Autowired
     private ICaloriesFoodRepository caloriesRepository;
 
+    //print response
     @Override
-    public ResponseFoodDto calculateFood(PlatoComidaDto platoComida) {
+    public ResponseFoodDto calculateFood(FoodPlateDto foodPlate) {
         ResponseFoodDto rF = new ResponseFoodDto();
-        rF.setCaloriasTotales(caloriesTotal(platoComida));
-        rF.setCaloriasIngredients(caloriesByIngredient(platoComida));
-        rF.setHighestIngredientCalories(highCalories(platoComida));
+        rF.setCaloriasTotales(caloriesTotal(foodPlate));
+        rF.setCaloriasIngredients(caloriesByIngredient(foodPlate));
+        rF.setHighestIngredientCalories(highCalories(foodPlate));
         return rF;
     }
 
-    public double calculateCalories(String name, int weigth){
+    //Calculate calories of ingredients by weight
+    public double calculateCalories(String name, int weight){
         CaloriesDto caloriesDto = caloriesRepository.findCalories(name);
 
         Double caloriesCalculated;
@@ -37,13 +39,14 @@ public class CaloriesServicesImplement implements ICaloriesServices{
             caloriesCalculated = 0d;
         }
 
-        return caloriesCalculated*weigth;
+        return caloriesCalculated*weight;
     }
 
-    public IngredientesDto highCalories(PlatoComidaDto plato){
-        IngredientesDto ing = new IngredientesDto();
+    //calculate the ingredient with the most calories
+    public IngredientsDto highCalories(FoodPlateDto plate){
+        IngredientsDto ing = new IngredientsDto();
         Double temp = 0d;
-        for(IngredientesDto i: plato.getIngredientes()){
+        for(IngredientsDto i: plate.getIngredients()){
             if(temp < calculateCalories(i.getName(),i.getWeight())){
                 ing = i;
                 temp = calculateCalories(i.getName(),i.getWeight());
@@ -52,20 +55,22 @@ public class CaloriesServicesImplement implements ICaloriesServices{
         return ing;
     }
 
-    public Double caloriesTotal(PlatoComidaDto platoComida){
+    //Calculate Calories total of food plate
+    public Double caloriesTotal(FoodPlateDto foodPlate){
         Double temp = 0d;
-        for(IngredientesDto i: platoComida.getIngredientes()){
+        for(IngredientsDto i: foodPlate.getIngredients()){
                 temp += calculateCalories(i.getName(),i.getWeight());
         }
         return temp;
     }
 
-    public HashMap<String,Double> caloriesByIngredient(PlatoComidaDto platoComida){
-        HashMap<String, Double> guardarIngredientes = new HashMap<>();
-        for(IngredientesDto i: platoComida.getIngredientes()){
-            guardarIngredientes.put(i.getName(),calculateCalories(i.getName(),i.getWeight()));
+    //Find calories by ingrediets
+    public HashMap<String,Double> caloriesByIngredient(FoodPlateDto foodPlate){
+        HashMap<String, Double> saveIngredients = new HashMap<>();
+        for(IngredientsDto i: foodPlate.getIngredients()){
+            saveIngredients.put(i.getName(),calculateCalories(i.getName(),i.getWeight()));
         }
-        return guardarIngredientes;
+        return saveIngredients;
 
     }
 }

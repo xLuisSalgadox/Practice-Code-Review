@@ -1,7 +1,7 @@
 package com.bootcamp.comida.dto;
 
 
-public class IngredientesDto {
+public class IngredientsDto {
      private String name;
      private Integer weight;
 

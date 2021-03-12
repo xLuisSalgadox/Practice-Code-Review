@@ -16,15 +16,11 @@ public class CaloriasCalculatorService implements ICaloriasCalculatorService{
 
     @Override
     public ResumenPlatoDTO generarResumenPlato(PlatoDTO plato) {
-        ResumenPlatoDTO resumen = new ResumenPlatoDTO();
         ArrayList<IngredienteYCalorias> ingredientesYCaloriasEnPlato = ingredienterepository.generarListaDeIngredientesConCalorias(plato.getIngredientes());
         Double caloriasTotales = calcularCaloriasTotales(ingredientesYCaloriasEnPlato, plato.getIngredientes());
         IngredienteYCalorias ingredienteConMasCalorias = ingredienteConMasCalorias(ingredientesYCaloriasEnPlato);
 
-        resumen.setCaloriasTotales(caloriasTotales);
-        resumen.setCaloriasPorIngrediente(ingredientesYCaloriasEnPlato);
-        resumen.setIngredienteConMasCalorias(ingredienteConMasCalorias);
-        return resumen;
+        return new ResumenPlatoDTO(caloriasTotales, ingredientesYCaloriasEnPlato, ingredienteConMasCalorias);
     }
     @Override
     public IngredienteYCalorias ingredienteConMasCalorias(ArrayList<IngredienteYCalorias> ingredientesYCaloriasEnPlato) {

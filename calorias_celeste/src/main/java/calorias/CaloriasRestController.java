@@ -14,7 +14,7 @@ public class CaloriasRestController {
     private CaloriasCalculatorService caloriasService;
 
     @PostMapping(path = "/plato")
-    public ResumenPlatoDTO generar(@RequestBody PlatoDTO plato){
+    public ResumenPlatoDTO generarResumenDePlato(@RequestBody PlatoDTO plato){
         return caloriasService.generarResumenPlato(plato);
     }
 

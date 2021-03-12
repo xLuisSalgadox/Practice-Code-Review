@@ -17,16 +17,19 @@ public class IngredienteRepository implements IIngredienteRepository{
 
     @Override
     public ArrayList<IngredienteYCalorias> generarListaDeIngredientesConCalorias(ArrayList<Ingrediente> ingredientesEnPlato) {
-        ArrayList<IngredienteYCalorias> res = new ArrayList<>();
-        ArrayList<IngredienteYCalorias> ingredientesEnBase = null;
-        ingredientesEnBase = cargarBase();
+        ArrayList<IngredienteYCalorias> ingredientesEnBase = cargarBase();
+        ArrayList<IngredienteYCalorias> ingredientesConCalorias = buscarEnBaseDeDatosYCrearIngredienteConCalorias(ingredientesEnPlato, ingredientesEnBase);
 
+        return ingredientesConCalorias;
+    }
+
+    private ArrayList<IngredienteYCalorias> buscarEnBaseDeDatosYCrearIngredienteConCalorias(ArrayList<Ingrediente> ingredientesEnPlato, ArrayList<IngredienteYCalorias> ingredientesEnBase) {
+        ArrayList<IngredienteYCalorias> ingredientesConCalorias = new ArrayList<>();
         for(Ingrediente i : ingredientesEnPlato) {
             IngredienteYCalorias ingredienteConCalorias = ingredientesEnBase.stream().filter(ingrediente -> ingrediente.getName().equals(i.getNombre())).findFirst().get();
-            res.add(ingredienteConCalorias);
+            ingredientesConCalorias.add(ingredienteConCalorias);
         }
-
-        return res;
+        return ingredientesConCalorias;
     }
 
     @Override
